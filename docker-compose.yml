@@ -14,12 +14,14 @@ identity:
     - "8080:8080"
   links:
     - discovery
+    - configserver
 cdmetrics:
   image: leansw/cd-metrics
   ports:
     - "9001:9001"
   links:
     - discovery
+    - configserver
     - mongo
 mongo:
   image: mongo
