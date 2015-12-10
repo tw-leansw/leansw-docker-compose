@@ -1,0 +1,21 @@
+discovery:
+  image: leansw/discovery-service
+  ports:
+    - "8761:8761"
+configserver:
+  image: leansw/config-service
+  ports:
+    - "8888:8888"
+  links:
+    - discovery
+cdmetrics:
+  image: leansw/cd-metrics
+  ports:
+    - "9001:9001"
+  links:
+    - discovery
+    - mongo
+mongo:
+  image: mongo
+  ports:
+    - "27017:27017"
