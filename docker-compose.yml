@@ -8,6 +8,12 @@ configserver:
     - "8888:8888"
   links:
     - discovery
+identity:
+  image: leansw/identity
+  ports:
+    - "8080:8080"
+  links:
+    - discovery
 cdmetrics:
   image: leansw/cd-metrics
   ports:
