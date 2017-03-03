@@ -22,51 +22,51 @@ services:
       dockerfile: src/main/docker/Dockerfile.compose
     volumes:
       - ~/.m2/:/root/.m2/
-    command: ["mvn", "spring-boot:run", "-DskipTest=true", "-Dspring.profiles.active=localv2", "-Deureka.client.serviceUrl.defaultZone=http://discovery-service:8761/eureka/", "-Deureka.instance.ip-address=${EXTERNAL_IP}"]
+    command: ["mvn", "spring-boot:run", "-DskipTest=true", "-Dspring.profiles.active=localv2", "-Deureka.client.serviceUrl.defaultZone=http://${EXTERNAL_IP}:8761/eureka/", "-Deureka.instance.ip-address=${EXTERNAL_IP}"]
     ports:
       - 2500:2500
     depends_on:
       discovery-service:
         condition: service_healthy
-  cdmetrics-service:
-    build:
-      context: https://${GIT_AUTH}@github.com/twconsultants/leansw-cdmetrics.git
-      dockerfile: src/main/docker/Dockerfile.compose
-    volumes:
-      - ~/.m2/:/root/.m2/
-    command: ["mvn", "spring-boot:run", "-DskipTest=true", "-Dspring.profiles.active=localv2", "-Deureka.client.serviceUrl.defaultZone=http://discovery-service:8761/eureka/", "-Deureka.instance.ip-address=${EXTERNAL_IP}"]
-    ports:
-      - 9001:9001
-    depends_on:
-      discovery-service:
-        condition: service_healthy
-      identity-service:
-        condition: service_started
-  codemetrics-service:
-    build:
-      context: https://${GIT_AUTH}@github.com/twconsultants/leansw-codemetrics.git
-      dockerfile: src/main/docker/Dockerfile.compose
-    volumes:
-      - ~/.m2/:/root/.m2/
-    command: ["mvn", "spring-boot:run", "-DskipTest=true", "-Dspring.profiles.active=localv2", "-Deureka.client.serviceUrl.defaultZone=http://discovery-service:8761/eureka/", "-Deureka.instance.ip-address=${EXTERNAL_IP}"]
-    ports:
-      - 9003:9003
-    depends_on:
-      discovery-service:
-        condition: service_healthy
-      identity-service:
-        condition: service_started
-  webapp-backend:
-    build:
-      context: https://${GIT_AUTH}@github.com/twconsultants/leansw-cdmetrics-ui.git
-      dockerfile: java_be/src/main/docker/Dockerfile.compose
-    volumes:
-      - ~/.m2/:/root/.m2/
-      - ${WEBAPP_STATIC}:/src/java_be/src/main/resources/static/
-    working_dir: /src/java_be/
-    command: ["mvn", "spring-boot:run", "-DskipTest=true", "-Dspring.profiles.active=local", "-Deureka.client.serviceUrl.defaultZone=http://discovery-service:8761/eureka/", "-Deureka.instance.ip-address=${EXTERNAL_IP}"]
-    ports:
-      - 9900:9900
-    depends_on:
-      discovery-service:
-        condition: service_healthy
+  # cdmetrics-service:
+  #   build:
+  #     context: https://${GIT_AUTH}@github.com/twconsultants/leansw-cdmetrics.git
+  #     dockerfile: src/main/docker/Dockerfile.compose
+  #   volumes:
+  #     - ~/.m2/:/root/.m2/
+  #   command: ["mvn", "spring-boot:run", "-DskipTest=true", "-Dspring.profiles.active=localv2", "-Deureka.client.serviceUrl.defaultZone=http://${EXTERNAL_IP}:8761/eureka/", "-Deureka.instance.ip-address=${EXTERNAL_IP}"]
+  #   ports:
+  #     - 9001:9001
+  #   depends_on:
+  #     discovery-service:
+  #       condition: service_healthy
+  #     identity-service:
+  #       condition: service_started
+  # codemetrics-service:
+  #   build:
+  #     context: https://${GIT_AUTH}@github.com/twconsultants/leansw-codemetrics.git
+  #     dockerfile: src/main/docker/Dockerfile.compose
+  #   volumes:
+  #     - ~/.m2/:/root/.m2/
+  #   command: ["mvn", "spring-boot:run", "-DskipTest=true", "-Dspring.profiles.active=localv2", "-Deureka.client.serviceUrl.defaultZone=http://${EXTERNAL_IP}:8761/eureka/", "-Deureka.instance.ip-address=${EXTERNAL_IP}"]
+  #   ports:
+  #     - 9003:9003
+  #   depends_on:
+  #     discovery-service:
+  #       condition: service_healthy
+  #     identity-service:
+  #       condition: service_started
+  # webapp-backend:
+  #   build:
+  #     context: https://${GIT_AUTH}@github.com/twconsultants/leansw-cdmetrics-ui.git
+  #     dockerfile: java_be/src/main/docker/Dockerfile.compose
+  #   volumes:
+  #     - ~/.m2/:/root/.m2/
+  #     - ${WEBAPP_STATIC}:/src/java_be/src/main/resources/static/
+  #   working_dir: /src/java_be/
+  #   command: ["mvn", "spring-boot:run", "-DskipTest=true", "-Dspring.profiles.active=local", "-Deureka.client.serviceUrl.defaultZone=http://${EXTERNAL_IP}:8761/eureka/", "-Deureka.instance.ip-address=${EXTERNAL_IP}"]
+  #   ports:
+  #     - 9900:9900
+  #   depends_on:
+  #     discovery-service:
+  #       condition: service_healthy
