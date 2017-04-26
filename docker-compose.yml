@@ -24,7 +24,7 @@ services:
       - ~/.m2/:/root/.m2/
     command: ["mvn", "spring-boot:run", "-DskipTest=true", "-Dspring.profiles.active=localv2", "-Deureka.client.serviceUrl.defaultZone=http://${EXTERNAL_IP}:8761/eureka/", "-Deureka.instance.ip-address=${EXTERNAL_IP}"]
     ports:
-      - 2500:2500
+      - 2400:2400
     depends_on:
       discovery-service:
         condition: service_healthy
